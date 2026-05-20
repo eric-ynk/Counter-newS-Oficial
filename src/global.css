@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#logo {
+    height: 70px;
+}
+
+.cabecalho {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* ← distribui logo, nav e login igualmente */
+    padding: 20px 40px;
+    background-color: #242657;
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+}
+
+.links ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    gap: 55px;
+    margin-left: 0; /* ← remove o margin-left fixo */
+}
+
+.links ul li a {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+/* Botão de login (usuário não logado) */
+#login {
+    background-color: #266E31;
+    padding: 10px 50px;
+    color: white;
+    border-radius: 15px;
+    font-size: 30px;
+    text-decoration: none;
+    white-space: nowrap;
+    margin-left: 0; /* ← remove o margin-left fixo */
+}
+
+/* Ícone de perfil (usuário logado) — mesmo posicionamento do #login */
+.perfil-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-left: 0;
+}

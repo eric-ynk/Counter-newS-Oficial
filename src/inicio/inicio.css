@@ -1,0 +1,338 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    color: white;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    background-color: #2A4B7C;
+}
+
+#principal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 200px;
+    font-size: 60px;
+}
+
+#div-principal {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;  
+    text-align: center;
+}
+
+#div-principal p {
+  margin: 1px 0;
+}
+
+#noticia-principal {
+    margin-top: 90px;
+    width: 70%;
+}
+
+#div-principal p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: bold;
+    max-width: none;   
+    white-space: nowrap;
+}
+
+#creditos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 15px;
+    color: grey;
+    font-style: italic;
+}
+
+/* =============================================
+   PERFIL — adicione isso no seu inicio.css
+   ============================================= */
+
+/* Wrapper do ícone de perfil */
+.perfil-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Botão circular do perfil */
+.perfil-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid #4CAF50; /* mesma cor do seu botão de login */
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.perfil-btn:hover {
+  border-color: #81c784;
+  transform: scale(1.06);
+}
+
+/* Foto de perfil do Google/provedor */
+.perfil-foto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Inicial do nome quando não há foto */
+.perfil-inicial {
+  color: #4CAF50;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  user-select: none;
+}
+
+/* Dropdown do menu de perfil */
+.perfil-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 12px 0;
+  min-width: 180px;
+  z-index: 999;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  animation: fadeDown 0.18s ease;
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Nome/email no topo do menu */
+.perfil-email {
+  padding: 0 16px 10px;
+  font-size: 0.82rem;
+  color: #aaa;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+.perfil-divisor {
+  border: none;
+  border-top: 1px solid #333;
+  margin: 0 0 8px;
+}
+
+/* Itens do menu (Link e button) */
+.perfil-opcao {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  color: #e0e0e0;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.perfil-opcao:hover {
+  background: #2a2a2a;
+  color: #fff;
+}
+
+/* Botão de sair em vermelho suave */
+.perfil-sair {
+  color: #ef9a9a;
+}
+
+.perfil-sair:hover {
+  background: #2a1a1a;
+  color: #ef5350;
+}
+
+/* =============================================
+   CARDS BLOQUEADOS — paywall
+   ============================================= */
+
+.card-bloqueado {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Escurece a imagem do card bloqueado */
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.cadeado {
+  font-size: 2rem;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+}
+
+/* Faixa de login dentro do card */
+.paywall-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: #1a1a1a;
+  border-top: 1px solid #333;
+  padding: 8px 12px;
+  border-radius: 0 0 8px 8px;
+}
+
+.paywall-card p {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #aaa;
+}
+
+/* Botão "Entrar" dentro do card */
+.paywall-btn {
+  font-size: 0.78rem;
+  padding: 4px 12px;
+  background: #4CAF50;
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.paywall-btn:hover {
+  background: #43A047;
+}
+
+/*Parte das notícias divididas*/
+
+.noticias-container {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+    gap: 50px; 
+    padding: 40px;
+}
+
+
+.card {
+    height: auto;
+    width: 380px; 
+    display: flex;
+    flex-direction: column;
+}
+
+.card img {
+    width: 100%;
+    border-radius: 15px; 
+    object-fit: cover;
+}
+
+.card h3 {
+    color: white;
+    font-size: 18px;
+    margin-top: 5px;
+    line-height: 1.5;
+}
+
+.credito {
+    color: gray;
+    font-size: 14px;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+.image-wrapper {
+    position: relative;
+}
+
+#foto1 {
+    height: 280px;
+    border-radius: 15px; 
+    object-fit: cover;
+}
+
+/*Parte dos "Seus seguidos"*/
+
+#seguido {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 130px;
+    font-size: 60px;
+}
+
+#secao-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: red;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+}
+
+@media screen and (min-width: 2560px) and (max-width: 2570px) {
+    
+}
+
+@media screen and (min-width: 1920px) and (max-width: 1930px) {
+
+}
+
+@media screen and (min-width: 1440px) and (max-width: 1450px) {
+    
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1034px) {
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 778px) {
+    
+}
+
+@media screen and (min-width: 425px) and (max-width: 435px) {
+    
+}
+
+@media screen and (min-width: 375px) and (max-width: 385px) {
+    
+}
+
+@media screen and (min-width: 320px) and (max-width: 330px) {
+    
+}

@@ -1,0 +1,106 @@
+.login-container {
+  display: flex;
+  height: 100vh;
+  background-color: #1e2a4a;
+}
+
+.login-esquerda {
+background-color: #2A4B7C;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-logo {
+  width: 350px;
+}
+
+.login-direita {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-card {
+  background-color: #2d3a6b;
+  padding: 40px;
+  border-radius: 16px;
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.login-card h2 {
+  color: white;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.login-card label {
+  color: white;
+  font-size: 14px;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #4a5a9a;
+  background-color: transparent;
+  color: white;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.login-card input::placeholder {
+  color: #8a9ad0;
+}
+
+.esqueci-senha {
+  color: #4a9a6a;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.esqueci-senha:hover {
+  text-decoration: underline;
+}
+
+button[type="submit"] {
+  background-color: #2d6a3a;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 24px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+button[type="submit"]:hover {
+  background-color: #3a8a4a;
+}
+
+.cadastro-texto {
+  color: white;
+  text-align: center;
+  font-size: 13px;
+  margin: 0;
+}
+
+.cadastro-link {
+  color: #e05555;
+  text-align: center;
+  font-size: 13px;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+
+.erro {
+  color: #e05555;
+  font-size: 13px;
+}

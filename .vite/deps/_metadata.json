@@ -1,0 +1,56 @@
+{
+  "hash": "df1be6e5",
+  "configHash": "40ce0cdf",
+  "lockfileHash": "fe0cd0a4",
+  "browserHash": "92d3ed0f",
+  "optimized": {
+    "@sanity/client": {
+      "src": "../../node_modules/@sanity/client/dist/index.browser.js",
+      "file": "@sanity_client.js",
+      "fileHash": "00d71721",
+      "needsInterop": false
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "43e14404",
+      "needsInterop": true
+    },
+    "react-router": {
+      "src": "../../node_modules/react-router/dist/development/index.mjs",
+      "file": "react-router.js",
+      "fileHash": "382d03c8",
+      "needsInterop": false
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "a5c12ff7",
+      "needsInterop": true
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "3b5cadd3",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "browser-CEeDQXAj": {
+      "file": "browser-CEeDQXAj.js",
+      "isDynamicEntry": true
+    },
+    "chunk-CO3PsZeE": {
+      "file": "chunk-CO3PsZeE.js",
+      "isDynamicEntry": false
+    },
+    "stegaClean-x8apbTR3": {
+      "file": "stegaClean-x8apbTR3.js",
+      "isDynamicEntry": false
+    },
+    "stegaEncodeSourceMap-DAOJeRn5": {
+      "file": "stegaEncodeSourceMap-DAOJeRn5.js",
+      "isDynamicEntry": true
+    }
+  }
+}

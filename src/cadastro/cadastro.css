@@ -1,0 +1,98 @@
+.cadastro-container {
+  display: flex;
+  height: 100vh;
+  background-color: #1e2a4a;
+}
+
+.cadastro-esquerda {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cadastro-logo {
+  width: 200px;
+}
+
+.cadastro-direita {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cadastro-card {
+  background-color: #2d3a6b;
+  padding: 40px;
+  border-radius: 16px;
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cadastro-card h2 {
+  color: white;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.cadastro-card label {
+  color: white;
+  font-size: 14px;
+}
+
+.cadastro-card input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #4a5a9a;
+  background-color: transparent;
+  color: white;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.cadastro-card input::placeholder {
+  color: #8a9ad0;
+}
+
+.cadastro-card button[type="submit"] {
+  background-color: #2d6a3a;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 24px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.cadastro-card button[type="submit"]:hover {
+  background-color: #3a8a4a;
+}
+
+.login-texto {
+  color: white;
+  text-align: center;
+  font-size: 13px;
+  margin: 0;
+}
+
+.login-link {
+  color: #4a9a6a;
+  font-size: 13px;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
+.erro {
+  color: #e05555;
+  font-size: 13px;
+}
