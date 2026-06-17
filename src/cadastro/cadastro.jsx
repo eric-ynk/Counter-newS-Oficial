@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { auth } from '../firebase'
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import Logo from '../assets/Logo menor.png'
+import Logo from '../assets/Logo.png'
 
 function Cadastro() {
   const [email, setEmail] = useState('')
@@ -71,8 +71,9 @@ function Cadastro() {
             />
 
             {erro && <p className='erro'>{erro}</p>}
-
-            <button type="submit">Cadastrar</button>
+            <div className='botao-cadastrar'> 
+              <button type="submit">Cadastrar</button>
+            </div>
           </form>
 
           <p className='login-texto'>Já tem uma conta?</p>

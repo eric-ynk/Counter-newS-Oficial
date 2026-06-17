@@ -1,6 +1,143 @@
-body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins',sans-serif;
+/* =============================================
+   PÁGINA COMPETITIVO
+   ============================================= */
+
+.comp-main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 140px 24px 80px; /* 140px para compensar o header fixo */
+}
+
+.comp-titulo {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  color: white;
+  margin-bottom: 48px;
+  letter-spacing: 0.3px;
+}
+
+.comp-carregando,
+.comp-vazio {
+  text-align: center;
+  color: #a0b0d0;
+  font-size: 16px;
+  margin-top: 60px;
+}
+
+/* =============================================
+   SEÇÕES POR MÊS
+   ============================================= */
+
+.comp-secao {
+  margin-bottom: 48px;
+}
+
+.comp-secao-titulo {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 16px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* =============================================
+   CARD DE COMPETIÇÃO
+   ============================================= */
+
+.comp-card {
+  background-color: #2d3a6b;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.comp-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Linha de cima: logo + nome + local */
+.comp-card-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  gap: 16px;
+}
+
+.comp-card-esquerda {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0; /* evita overflow do texto */
+}
+
+/* Logo da competição */
+.comp-logo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background-color: rgba(255,255,255,0.05);
+  padding: 4px;
+}
+
+/* Placeholder quando não tem logo */
+.comp-logo-placeholder {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background-color: #242657;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #8a9ad0;
+  letter-spacing: 1px;
+}
+
+.comp-nome {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.comp-local {
+  font-size: 14px;
+  color: #a0b8d8;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Linha de baixo: datas + prêmio */
+.comp-card-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  gap: 16px;
+}
+
+.comp-datas {
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+}
+
+.comp-premio {
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  text-align: right;
 }

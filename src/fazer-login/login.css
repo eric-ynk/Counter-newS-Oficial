@@ -27,7 +27,7 @@ background-color: #2A4B7C;
   background-color: #2d3a6b;
   padding: 40px;
   border-radius: 16px;
-  width: 380px;
+  width: 450px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -36,17 +36,18 @@ background-color: #2A4B7C;
 .login-card h2 {
   color: white;
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 40px;
 }
 
 .login-card label {
   color: white;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .login-card input {
   width: 100%;
   padding: 12px 16px;
+  margin-bottom: 15px;
   border-radius: 8px;
   border: 1px solid #4a5a9a;
   background-color: transparent;
@@ -61,7 +62,7 @@ background-color: #2A4B7C;
 
 .esqueci-senha {
   color: #4a9a6a;
-  font-size: 13px;
+  font-size: 12px;
   text-decoration: none;
 }
 
@@ -69,11 +70,18 @@ background-color: #2A4B7C;
   text-decoration: underline;
 }
 
+.botao-entrar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+}
+
 button[type="submit"] {
   background-color: #2d6a3a;
   color: white;
   border: none;
-  padding: 14px;
+  padding: 12px 40px;
   border-radius: 24px;
   font-size: 16px;
   cursor: pointer;

@@ -1,5 +1,5 @@
 import './inicio.css'
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 import { useEffect, useState, useRef } from 'react'
 import { postsQuery, postPrincipalQuery } from '../queries'
 import client from '../sanity'
@@ -67,7 +67,7 @@ function Inicio() {
                 Competitivo
               </a>
             </li>
-            <li className='lista-nav'><a href="#">Atualizações</a></li>
+            <li className='lista-nav'><Link to="/atualizacoes">Atualizações</Link></li>
             <li className='lista-nav'><a href="#">Ranking</a></li>
             <li className='lista-nav'><a href="#">Comunidade</a></li>
             <li className='lista-nav'><a href="#">Guias</a></li>

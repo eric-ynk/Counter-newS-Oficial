@@ -4,18 +4,21 @@ import Competitivo from './competitivo/competitivo'
 import Login from './fazer-login/login'
 import Cadastro from './cadastro/cadastro'
 import PageTransition from './transicao-paginas/transicao'
+import EsqueciSenha from './esqueci-senha/esqueci-senha'
+import Atualizacoes from './atualizacoes/atualizacoes'
 
 function App() {
   const location = useLocation(); // Captura a rota atual (ex: "/", "/login")
 
   return (
-    /* A mágica está aqui: mudar a key força o CSS a reiniciar a animação */
     <PageTransition key={location.pathname}>
       <Routes>
         <Route path="/" element={<Inicio />} />
         <Route path="/competitivo" element={<Competitivo />} />
         <Route path='/login' element={<Login />} />
         <Route path='/cadastro' element={<Cadastro />} />
+        <Route path='/esqueci-senha' element={<EsqueciSenha />} />
+        <Route path='/atualizacoes' element={<Atualizacoes />} />
       </Routes>
     </PageTransition>
   );

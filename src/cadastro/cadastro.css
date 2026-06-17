@@ -29,7 +29,7 @@
   width: 380px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 15px;
 }
 
 .cadastro-card h2 {
@@ -52,13 +52,24 @@
   color: white;
   font-size: 14px;
   box-sizing: border-box;
+  margin-bottom: 20px;
 }
 
 .cadastro-card input::placeholder {
   color: #8a9ad0;
 }
 
+.botao-cadastrar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
 .cadastro-card button[type="submit"] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: #2d6a3a;
   color: white;
   border: none;

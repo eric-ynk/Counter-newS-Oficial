@@ -52,8 +52,9 @@ function FazerLogin() {
             {erro && <p className='erro'>{erro}</p>}
 
             <Link to="/esqueci-senha" className='esqueci-senha'>Esqueci minha senha</Link>
-
+          <div className='botao-entrar'>
             <button type="submit">Entrar</button>
+          </div>
           </form>
 
           <p className='cadastro-texto'>Ainda não tem cadastro?</p>

@@ -1,0 +1,49 @@
+/* Reutiliza todas as classes do login.css — importe o login.css junto ou copie daqui */
+
+/* Tela de sucesso */
+.reset-sucesso {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.reset-icone {
+  font-size: 48px;
+}
+
+.reset-sucesso h2 {
+  margin: 0;
+}
+
+.reset-sucesso p {
+  color: #c0cce8;
+  font-size: 14px;
+  margin: 0;
+}
+
+.reset-sucesso strong {
+  color: white;
+}
+
+.reset-obs {
+  color: #8a9ad0 !important;
+  font-size: 12px !important;
+  font-style: italic;
+}
+
+/* Descrição acima do formulário */
+.reset-descricao {
+  color: #c0cce8;
+  font-size: 14px;
+  margin: 0 0 8px;
+  line-height: 1.5;
+}
+
+/* Botão desabilitado durante o carregamento */
+button[type="submit"]:disabled {
+  background-color: #1e4a28;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
