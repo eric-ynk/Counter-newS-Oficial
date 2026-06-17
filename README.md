@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Counter-newS
 Projeto criado nas aulas de Gestão de Conteúdo Web ministradas pelo professor Rogério Ragozini
 =======
@@ -19,3 +20,7 @@ The React Compiler is not enabled on this template because of its impact on dev 
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 >>>>>>> f95f8c2 (Salvar)
+=======
+# Counter-newS-Oficial
+Salvar o projeto do Counter-newS no github
+>>>>>>> e257d065edbeb5d2570435c4dfd85f28cf943950
