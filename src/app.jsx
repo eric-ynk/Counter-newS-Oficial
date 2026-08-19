@@ -8,12 +8,28 @@ import EsqueciSenha from './esqueci-senha/esqueci-senha'
 import Atualizacoes from './atualizacoes/atualizacoes'
 import Ranking from './ranking/ranking'
 import EquipeDetalhe from './ranking/equipeDetalhe'
+import ComunidadeChat from './comunidade/comunidade'
+import Configuracoes from './configuracoes/configuracoes'
+import Guias from './guias/guias'
+import Navbar from './cabecalho/cabecalho'
+import Noticia from './noticia-completa/noticia'
+import { useEffect } from 'react'
 
 function App() {
   const location = useLocation()
 
+  // Aplica preferências globais salvas (ex.: reduzir animações)
+  useEffect(() => {
+    try {
+      const cfg = JSON.parse(localStorage.getItem('cn-config') || '{}')
+      document.documentElement.classList.toggle('cn-no-anim', !!cfg?.aparencia?.reduzirAnimacoes)
+    } catch { /* ignora config inválida */ }
+  }, [])
+
   return (
     <PageTransition key={location.pathname}>
+      <Navbar />
+        <main>
       <Routes>
         <Route path="/" element={<Inicio />} />
         <Route path="/competitivo" element={<Competitivo />} />
@@ -23,7 +39,12 @@ function App() {
         <Route path='/atualizacoes' element={<Atualizacoes />} />
         <Route path='/ranking' element={<Ranking />} />
         <Route path='/ranking/:slug' element={<EquipeDetalhe />} />
+        <Route path='/comunidade' element={<ComunidadeChat/>}/>
+        <Route path='/configuracoes' element={<Configuracoes/>}/>
+        <Route path='/guias' element={<Guias/>}/>
+        <Route path="/noticia/:slug" element={<Noticia />} />
       </Routes>
+</main>
     </PageTransition>
   )
 }

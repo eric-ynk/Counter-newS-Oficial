@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router'
 import { useRef, useState, useEffect } from 'react'
 import LogoHeader from '../assets/Logo menor.png'
 import { useAuth } from '../Authcontext'
+import { useConfig } from '../useConfig'
+import { Star, EyeOff } from 'lucide-react'
 import client from '../sanity'
 import imageUrlBuilder from '@sanity/image-url'
 
@@ -20,6 +22,12 @@ function codigoParaBandeira(codigo) {
     .split('')
     .map(c => String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65))
     .join('')
+}
+
+// Bandeira em imagem (emoji de bandeira não renderiza no Windows)
+function urlBandeira(codigo) {
+  if (!codigo) return ''
+  return `https://flagcdn.com/w40/${codigo.toLowerCase()}.png`
 }
 
 const rankingQuery = `*[_type == "equipe"] | order(posicao asc) {
@@ -50,6 +58,10 @@ function formatarDataRanking(dataStr) {
 
 function Ranking() {
   const { user, loadingAuth, logout } = useAuth()
+  const config = useConfig()
+  const favoritos = config.timesFavoritos || []
+  const semSpoiler = !!config.semSpoiler
+  const [revelarPontos, setRevelarPontos] = useState(false)
   const [menuAberto, setMenuAberto] = useState(false)
   const [equipes, setEquipes] = useState([])
   const [carregando, setCarregando] = useState(true)
@@ -94,42 +106,6 @@ function Ranking() {
 
   return (
     <>
-      <header className='cabecalho'>
-        <Link to="/"><img src={LogoHeader} alt="Logo" id='logo' /></Link>
-        <nav className='links'>
-          <ul>
-            <li className='lista-nav'><Link to="/">Notícias</Link></li>
-            <li className='lista-nav'><Link to="/competitivo">Competitivo</Link></li>
-            <li className='lista-nav'><Link to="/ranking" className='nav-ativo'>Ranking</Link></li>
-            <li className='lista-nav'><a href="#">Comunidade</a></li>
-            <li className='lista-nav'><a href="#">Guias</a></li>
-          </ul>
-        </nav>
-
-        {!loadingAuth && (
-          user ? (
-            <div className='perfil-wrapper' ref={menuRef}>
-              <button className='perfil-btn' onClick={() => setMenuAberto(!menuAberto)} aria-label="Menu do perfil">
-                {user.photoURL
-                  ? <img src={user.photoURL} alt="Foto de perfil" className='perfil-foto' />
-                  : <span className='perfil-inicial'>{getInicial(user)}</span>
-                }
-              </button>
-              {menuAberto && (
-                <div className='perfil-menu'>
-                  <p className='perfil-email'>{user.displayName || user.email}</p>
-                  <hr className='perfil-divisor' />
-                  <Link to="/perfil" className='perfil-opcao' onClick={() => setMenuAberto(false)}>Meu perfil</Link>
-                  <button className='perfil-opcao perfil-sair' onClick={handleLogout}>Sair</button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <Link to="/login" id='login' style={{ textDecoration: 'none' }}>Login</Link>
-          )
-        )}
-      </header>
-
       <main className='rank-main'>
         <div className='rank-titulo-wrapper'>
           <h1 className='rank-titulo'>
@@ -138,6 +114,13 @@ function Ranking() {
           </h1>
           <p className='rank-subtitulo'>Top — {equipes.length}</p>
         </div>
+
+        {semSpoiler && !revelarPontos && equipes.length > 0 && (
+          <button className='rank-spoiler-banner' onClick={() => setRevelarPontos(true)}>
+            <EyeOff size={16} aria-hidden="true" />
+            Modo sem spoiler ativo — pontuações ocultas. Clique para mostrar.
+          </button>
+        )}
 
         {carregando ? (
           <p className='rank-estado'>Carregando ranking...</p>
@@ -148,11 +131,12 @@ function Ranking() {
             {equipes.map((equipe) => {
               const { jogadores, coach } = getJogadoresECoach(equipe.elenco)
               const isTop3 = equipe.posicao <= 3
+              const isPrimeiro = Number(equipe.posicao) === 1
 
               return (
                 <div
                   key={equipe._id}
-                  className={`rank-card ${isTop3 ? 'rank-card--destaque' : ''}`}
+                  className={`rank-card rank-card--pos${equipe.posicao} ${isTop3 ? 'rank-card--destaque' : ''} ${isPrimeiro ? 'rank-card--primeiro' : ''} ${favoritos.includes(equipe.slug?.current) ? 'rank-card--favorito' : ''}`}
                 >
                   {/* Cabeçalho da equipe — clicável */}
                   <button
@@ -171,12 +155,17 @@ function Ranking() {
                       <div className='rank-equipe-info'>
                         <span className='rank-posicao'>{equipe.posicao}º Lugar</span>
                         <h2 className='rank-equipe-nome'>{equipe.nome}</h2>
-                        <span className='rank-pontos'>
+                        <span className={`rank-pontos ${semSpoiler && !revelarPontos ? 'rank-pontos--oculto' : ''}`}>
                           {equipe.pontos.toLocaleString('pt-BR')} Valve points
                         </span>
                       </div>
                     </div>
                     <div className='rank-card-header-direita'>
+                      {favoritos.includes(equipe.slug?.current) && (
+                        <span className='rank-fav-badge'>
+                          <Star size={13} fill='currentColor' aria-hidden="true" /> Favorito
+                        </span>
+                      )}
                       <span className='rank-org'>ORG — {equipe.organizacao}</span>
                       <span className='rank-seta'>›</span>
                     </div>
@@ -201,7 +190,14 @@ function Ranking() {
                                 />
                               )}
                               <span className='rank-jogador-nick'>
-                                {bandeira && <span className='rank-bandeira'>{bandeira}</span>}
+                                {membro.jogador?.codigoBandeira && (
+                                  <img
+                                    className='rank-bandeira'
+                                    src={urlBandeira(membro.jogador.codigoBandeira)}
+                                    alt={membro.jogador?.nomeIngame}
+                                    loading='lazy'
+                                  />
+                                )}
                                 {membro.jogador?.nomeIngame}
                               </span>
                             </div>
@@ -222,10 +218,13 @@ function Ranking() {
                               />
                             )}
                             <span className='rank-jogador-nick'>
-                              {codigoParaBandeira(coach.jogador?.codigoBandeira) && (
-                                <span className='rank-bandeira'>
-                                  {codigoParaBandeira(coach.jogador.codigoBandeira)}
-                                </span>
+                              {coach.jogador?.codigoBandeira && (
+                                <img
+                                  className='rank-bandeira'
+                                  src={urlBandeira(coach.jogador.codigoBandeira)}
+                                  alt={coach.jogador?.nomeIngame}
+                                  loading='lazy'
+                                />
                               )}
                               {coach.jogador?.nomeIngame}
                             </span>

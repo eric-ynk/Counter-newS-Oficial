@@ -3,9 +3,10 @@
    ============================================= */
 
 .comp-main {
-  max-width: 860px;
+  width: 100%;
+  max-width: 1320px;
   margin: 0 auto;
-  padding: 140px 24px 80px; /* 140px para compensar o header fixo */
+  padding: 48px 24px 80px;
 }
 
 .comp-titulo {
@@ -30,6 +31,7 @@
    ============================================= */
 
 .comp-secao {
+  width: 100%;
   margin-bottom: 48px;
 }
 
@@ -47,6 +49,7 @@
    ============================================= */
 
 .comp-card {
+  width: 100%;
   background-color: #2d3a6b;
   border-radius: 12px;
   margin-bottom: 12px;
@@ -54,10 +57,7 @@
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.comp-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
-}
+
 
 /* Linha de cima: logo + nome + local */
 .comp-card-topo {

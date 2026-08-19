@@ -2,7 +2,6 @@ import './atualizacoes.css'
 import '../global.css'
 import { Link } from 'react-router'
 import { useRef, useState, useEffect } from 'react'
-import LogoHeader from '../assets/Logo menor.png'
 import { useAuth } from '../Authcontext'
 import client from '../sanity'
 import imageUrlBuilder from '@sanity/image-url'
@@ -41,14 +40,71 @@ function formatarDataLonga(dataStr) {
   return data.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })
 }
 
+function renderTextoAtualizacao(texto) {
+  if (!texto) return null
+
+  if (typeof texto === 'string') {
+    return <p className='atu-item-texto'>{texto}</p>
+  }
+
+  if (!Array.isArray(texto)) return null
+
+  const elementos = []
+  let listaAtual = []
+
+  function renderSpans(block) {
+    return block.children?.map((span, index) => {
+      let conteudo = span.text
+
+      if (span.marks?.includes('strong')) {
+        conteudo = <strong>{conteudo}</strong>
+      }
+
+      if (span.marks?.includes('em')) {
+        conteudo = <em>{conteudo}</em>
+      }
+
+      return <span key={span._key || index}>{conteudo}</span>
+    })
+  }
+
+  function fecharLista() {
+    if (listaAtual.length === 0) return
+    elementos.push(
+      <ul key={`lista-${elementos.length}`} className='atu-item-lista'>
+        {listaAtual}
+      </ul>
+    )
+    listaAtual = []
+  }
+
+  texto.forEach((block, index) => {
+    if (block._type !== 'block') return
+
+    const conteudo = renderSpans(block)
+
+    if (block.listItem === 'bullet') {
+      listaAtual.push(<li key={block._key || index}>{conteudo}</li>)
+      return
+    }
+
+    fecharLista()
+    elementos.push(
+      <p key={block._key || index} className='atu-item-texto'>
+        {conteudo}
+      </p>
+    )
+  })
+
+  fecharLista()
+
+  return <div className='atu-item-conteudo'>{elementos}</div>
+}
+
 function Atualizacoes() {
-  const { user, loadingAuth, logout } = useAuth()
-  const [menuAberto, setMenuAberto] = useState(false)
-  const [atualizacoes, setAtualizacoes] = useState([])
+  const { user } = useAuth();  const [atualizacoes, setAtualizacoes] = useState([])
   const [carregando, setCarregando] = useState(true)
   const [expandido, setExpandido] = useState(null) // _id da atualização aberta
-  const menuRef = useRef(null)
-
   const hoje = new Date()
   const tituloData = hoje.toLocaleDateString('pt-BR', {
     day: '2-digit', month: '2-digit', year: 'numeric'
@@ -64,64 +120,8 @@ function Atualizacoes() {
       })
       .catch(err => { console.error('Erro ao buscar atualizações:', err); setCarregando(false) })
   }, [])
-
-  useEffect(() => {
-    function handleClickFora(e) {
-      if (menuRef.current && !menuRef.current.contains(e.target)) setMenuAberto(false)
-    }
-    document.addEventListener('mousedown', handleClickFora)
-    return () => document.removeEventListener('mousedown', handleClickFora)
-  }, [])
-
-  function getInicial(user) {
-    if (user.displayName) return user.displayName.charAt(0).toUpperCase()
-    if (user.email) return user.email.charAt(0).toUpperCase()
-    return '?'
-  }
-
-  async function handleLogout() {
-    await logout()
-    setMenuAberto(false)
-  }
-
   return (
     <>
-      <header className='cabecalho'>
-        <Link to="/"><img src={LogoHeader} alt="Logo" id='logo' /></Link>
-        <nav className='links'>
-          <ul>
-            <li className='lista-nav'><Link to="/">Notícias</Link></li>
-            <li className='lista-nav'><Link to="/competitivo">Competitivo</Link></li>
-            <li className='lista-nav'><a href="#">Ranking</a></li>
-            <li className='lista-nav'><a href="#">Comunidade</a></li>
-            <li className='lista-nav'><a href="#">Guias</a></li>
-          </ul>
-        </nav>
-
-        {!loadingAuth && (
-          user ? (
-            <div className='perfil-wrapper' ref={menuRef}>
-              <button className='perfil-btn' onClick={() => setMenuAberto(!menuAberto)} aria-label="Menu do perfil">
-                {user.photoURL
-                  ? <img src={user.photoURL} alt="Foto de perfil" className='perfil-foto' />
-                  : <span className='perfil-inicial'>{getInicial(user)}</span>
-                }
-              </button>
-              {menuAberto && (
-                <div className='perfil-menu'>
-                  <p className='perfil-email'>{user.displayName || user.email}</p>
-                  <hr className='perfil-divisor' />
-                  <Link to="/perfil" className='perfil-opcao' onClick={() => setMenuAberto(false)}>Meu perfil</Link>
-                  <button className='perfil-opcao perfil-sair' onClick={handleLogout}>Sair</button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <Link to="/login" id='login' style={{ textDecoration: 'none' }}>Login</Link>
-          )
-        )}
-      </header>
-
       <main className='atu-main'>
         <h1 className='atu-titulo-pagina'>Atualizações — {tituloData}</h1>
 
@@ -134,7 +134,7 @@ function Atualizacoes() {
             {atualizacoes.map((atu, index) => {
               const aberto = expandido === atu._id
               return (
-                <div key={atu._id} className={`atu-card ${aberto ? 'atu-card--aberto' : ''}`}>
+                <div key={atu._id} className={`atu-card ${aberto ? 'atu-card--aberto' : 'atu-card--fechado'}`}>
 
                   {/* Cabeçalho clicável */}
                   <button
@@ -144,7 +144,7 @@ function Atualizacoes() {
                   >
                     <div className='atu-card-header-esquerda'>
                       <span className='atu-badge'>
-                        {index === 0 ? 'Mais recente' : formatarData(atu.dataPublicacao)}
+                        {index === 0 ? 'Saiu no servidor' : formatarData(atu.dataPublicacao)}
                       </span>
                       <h2 className='atu-card-titulo'>{atu.titulo}</h2>
                       {atu.resumo && <p className='atu-card-resumo'>{atu.resumo}</p>}
@@ -155,8 +155,12 @@ function Atualizacoes() {
                   </button>
 
                   {/* Conteúdo expandível */}
-                  {aberto && (
-                    <div className='atu-card-corpo'>
+                  <div
+                    className={`atu-card-corpo ${aberto ? 'atu-card-corpo--aberto' : 'atu-card-corpo--fechado'}`}
+                    aria-hidden={!aberto}
+                  >
+                    {aberto && (
+                      <div className='atu-card-conteudo'>
 
                       {/* Imagem de destaque */}
                       {atu.imagemDestaque && (
@@ -190,7 +194,7 @@ function Atualizacoes() {
                                 {item.subtitulo && (
                                   <span className='atu-item-subtitulo'>{item.subtitulo}</span>
                                 )}
-                                <p className='atu-item-texto'>{item.texto}</p>
+                                {renderTextoAtualizacao(item.texto)}
                                 {item.imagem && (
                                   <img
                                     src={urlFor(item.imagem)}
@@ -204,8 +208,9 @@ function Atualizacoes() {
                         </div>
                       ))}
 
-                    </div>
-                  )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               )
             })}

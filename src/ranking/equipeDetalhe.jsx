@@ -21,11 +21,26 @@ function codigoParaBandeira(codigo) {
     .join('')
 }
 
+// Bandeira em imagem (emoji de bandeira não renderiza no Windows)
+function urlBandeira(codigo) {
+  if (!codigo) return ''
+  return `https://flagcdn.com/w40/${codigo.toLowerCase()}.png`
+}
+
 const equipeQuery = `*[_type == "equipe" && slug.current == $slug][0] {
   _id,
   posicao,
   nome,
   logo,
+  identidadeVisual {
+    corPrimaria,
+    corSecundaria,
+    corFundo,
+    corCards,
+    corTexto,
+    estiloCards,
+    opacidadeLogo
+  },
   pontos,
   organizacao,
   dataRanking,
@@ -63,6 +78,23 @@ function formatarDataRanking(dataStr) {
   if (!dataStr) return ''
   const [ano, mes, dia] = dataStr.split('-')
   return `${dia}/${mes}/${ano}`
+}
+
+function getCorDaPosicao(posicao) {
+  const posicaoNumerica = Number(posicao)
+  if (posicaoNumerica === 1) return '#e3b319'
+  if (posicaoNumerica === 2) return '#c8ced8'
+  if (posicaoNumerica === 3) return '#c47a3a'
+  return '#6ea8fe'
+}
+
+function normalizarCor(cor, fallback) {
+  return /^#[0-9a-fA-F]{6}$/.test(cor || '') ? cor : fallback
+}
+
+function hexParaRgb(cor) {
+  const hex = cor.replace('#', '')
+  return `${parseInt(hex.slice(0, 2), 16)}, ${parseInt(hex.slice(2, 4), 16)}, ${parseInt(hex.slice(4, 6), 16)}`
 }
 
 function EquipeDetalhe() {
@@ -124,45 +156,37 @@ function EquipeDetalhe() {
     return [...trofeus].sort((a, b) => b.ano - a.ano)
   }
 
+  const corDaPosicao = getCorDaPosicao(equipe?.posicao)
+  const logoEquipeUrl = equipe?.logo ? urlFor(equipe.logo) : ''
+  const identidadeVisual = equipe?.identidadeVisual || {}
+  const corPrimaria = normalizarCor(identidadeVisual.corPrimaria, corDaPosicao)
+  const corSecundaria = normalizarCor(identidadeVisual.corSecundaria, '#9db4e8')
+  const corFundo = normalizarCor(identidadeVisual.corFundo, '#141a30')
+  const corCards = normalizarCor(identidadeVisual.corCards, '#1e2547')
+  const corTexto = normalizarCor(identidadeVisual.corTexto, '#ffffff')
+  const estilosCardsPermitidos = ['equilibrado', 'vidro', 'contorno']
+  const estiloCards = estilosCardsPermitidos.includes(identidadeVisual.estiloCards)
+    ? identidadeVisual.estiloCards
+    : 'equilibrado'
+  const opacidadeLogo = Math.min(20, Math.max(0, Number(identidadeVisual.opacidadeLogo ?? 8))) / 100
+  const estiloDaEquipe = {
+    '--ed-rank-color': corPrimaria,
+    '--ed-rank-rgb': hexParaRgb(corPrimaria),
+    '--ed-rank-soft': corSecundaria,
+    '--ed-team-secondary': corSecundaria,
+    '--ed-page-bg': corFundo,
+    '--ed-card-bg': corCards,
+    '--ed-text-color': corTexto,
+    '--ed-logo-opacity': opacidadeLogo,
+    ...(logoEquipeUrl ? { '--ed-team-logo': `url(${logoEquipeUrl})` } : {})
+  }
+
   return (
     <>
-      <header className='cabecalho'>
-        <Link to="/"><img src={LogoHeader} alt="Logo" id='logo' /></Link>
-        <nav className='links'>
-          <ul>
-            <li className='lista-nav'><Link to="/">Notícias</Link></li>
-            <li className='lista-nav'><Link to="/competitivo">Competitivo</Link></li>
-            <li className='lista-nav'><Link to="/ranking" className='nav-ativo'>Ranking</Link></li>
-            <li className='lista-nav'><a href="#">Comunidade</a></li>
-            <li className='lista-nav'><a href="#">Guias</a></li>
-          </ul>
-        </nav>
-
-        {!loadingAuth && (
-          user ? (
-            <div className='perfil-wrapper' ref={menuRef}>
-              <button className='perfil-btn' onClick={() => setMenuAberto(!menuAberto)} aria-label="Menu do perfil">
-                {user.photoURL
-                  ? <img src={user.photoURL} alt="Foto de perfil" className='perfil-foto' />
-                  : <span className='perfil-inicial'>{getInicial(user)}</span>
-                }
-              </button>
-              {menuAberto && (
-                <div className='perfil-menu'>
-                  <p className='perfil-email'>{user.displayName || user.email}</p>
-                  <hr className='perfil-divisor' />
-                  <Link to="/perfil" className='perfil-opcao' onClick={() => setMenuAberto(false)}>Meu perfil</Link>
-                  <button className='perfil-opcao perfil-sair' onClick={handleLogout}>Sair</button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <Link to="/login" id='login' style={{ textDecoration: 'none' }}>Login</Link>
-          )
-        )}
-      </header>
-
-      <main className='ed-main'>
+      <main
+        className={`ed-main ${equipe ? `ed-main--pos-${Number(equipe.posicao)} ed-main--cards-${estiloCards}` : ''}`}
+        style={equipe ? estiloDaEquipe : undefined}
+      >
         {carregando ? (
           <p className='ed-estado'>Carregando...</p>
         ) : !equipe ? (
@@ -177,6 +201,9 @@ function EquipeDetalhe() {
               <button className='ed-voltar' onClick={() => navigate('/ranking')}>
                 ← Ranking
               </button>
+              <h1 className='ed-hero-titulo'>
+                {equipe.nome} - TOP {equipe.posicao} do mundo
+              </h1>
               <div className='ed-hero-conteudo'>
                 {equipe.logo && (
                   <img
@@ -242,10 +269,12 @@ function EquipeDetalhe() {
             {/* ── Jogadores ── */}
             {equipe.elenco && equipe.elenco.length > 0 && (() => {
               const { jogadores, coach } = getJogadoresECoach(equipe.elenco)
+              const selecionado = jogadorSelecionado
               return (
                 <section className='ed-secao'>
                   <h2 className='ed-secao-titulo'>Jogadores</h2>
-                  <div className='ed-jogadores-grid'>
+                  <div className='ed-elenco-layout'>
+                    <div className='ed-jogadores-grid'>
                     {jogadores.map((membro, idx) => {
                       const j = membro.jogador
                       const funcao = membro.funcaoNaEquipe || j?.funcao || ''
@@ -253,8 +282,8 @@ function EquipeDetalhe() {
                       return (
                         <button
                           key={idx}
-                          className='ed-jogador-card'
-                          onClick={() => setJogadorSelecionado(membro)}
+                          className={`ed-jogador-card ${selecionado === membro ? 'ed-jogador-card--ativo' : ''}`}
+                          onClick={() => setJogadorSelecionado(selecionado === membro ? null : membro)}
                           aria-label={`Ver perfil de ${j?.nomeIngame}`}
                         >
                           {j?.foto && (
@@ -267,24 +296,60 @@ function EquipeDetalhe() {
                           <div className='ed-jogador-rodape'>
                             <span className='ed-jogador-funcao'>{funcao}</span>
                             <span className='ed-jogador-nick'>
-                              {bandeira && <span>{bandeira}</span>}
+                              {j?.codigoBandeira && (
+                                <img
+                                  className='ed-bandeira'
+                                  src={urlBandeira(j.codigoBandeira)}
+                                  alt={j.pais || j.codigoBandeira}
+                                  loading='lazy'
+                                />
+                              )}
                               {j?.nomeIngame}
                             </span>
                           </div>
+                          {selecionado === membro && (
+                            <div className='ed-jogador-detalhes'>
+                              {j?.nomeReal && <p><strong>Nome:</strong> {j.nomeReal}</p>}
+                              {j?.idade && <p><strong>Idade:</strong> {j.idade} anos</p>}
+                              <p><strong>Função:</strong> {funcao}</p>
+                              {j?.pais && (
+                                <p className='ed-jogador-local'>
+                                  <strong>Nasceu na</strong> {j.pais}
+                                  {j?.codigoBandeira && (
+                                    <img
+                                      className='ed-bandeira'
+                                      src={urlBandeira(j.codigoBandeira)}
+                                      alt={j.pais}
+                                      loading='lazy'
+                                    />
+                                  )}
+                                </p>
+                              )}
+                              {j?.descricaoCurta && (
+                                <p className='ed-jogador-destaque'>{j.descricaoCurta}</p>
+                              )}
+                              {j?.biografia && (
+                                <p className='ed-jogador-bio'>{j.biografia}</p>
+                              )}
+                            </div>
+                          )}
                         </button>
                       )
                     })}
+                    </div>
 
                     {/* Coach */}
                     {coach && (() => {
                       const j = coach.jogador
                       const bandeira = codigoParaBandeira(j?.codigoBandeira)
                       return (
-                        <button
-                          className='ed-jogador-card ed-jogador-card--coach'
-                          onClick={() => setJogadorSelecionado(coach)}
-                          aria-label={`Ver perfil de ${j?.nomeIngame} (Coach)`}
-                        >
+                        <aside className='ed-coach-bloco' aria-label='Coach da equipe'>
+                          <span className='ed-coach-titulo'>Coach</span>
+                          <button
+                            className={`ed-jogador-card ed-jogador-card--coach ${selecionado === coach ? 'ed-jogador-card--ativo' : ''}`}
+                            onClick={() => setJogadorSelecionado(selecionado === coach ? null : coach)}
+                            aria-label={`Ver perfil de ${j?.nomeIngame} (Coach)`}
+                          >
                           {j?.foto && (
                             <img
                               src={urlFor(j.foto)}
@@ -295,11 +360,45 @@ function EquipeDetalhe() {
                           <div className='ed-jogador-rodape'>
                             <span className='ed-jogador-funcao'>Coach</span>
                             <span className='ed-jogador-nick'>
-                              {bandeira && <span>{bandeira}</span>}
+                              {j?.codigoBandeira && (
+                                <img
+                                  className='ed-bandeira'
+                                  src={urlBandeira(j.codigoBandeira)}
+                                  alt={j.pais || j.codigoBandeira}
+                                  loading='lazy'
+                                />
+                              )}
                               {j?.nomeIngame}
                             </span>
                           </div>
-                        </button>
+                          {selecionado === coach && (
+                            <div className='ed-jogador-detalhes'>
+                              {j?.nomeReal && <p><strong>Nome:</strong> {j.nomeReal}</p>}
+                              {j?.idade && <p><strong>Idade:</strong> {j.idade} anos</p>}
+                              <p><strong>Função:</strong> Coach</p>
+                              {j?.pais && (
+                                <p className='ed-jogador-local'>
+                                  <strong>Nasceu na</strong> {j.pais}
+                                  {j?.codigoBandeira && (
+                                    <img
+                                      className='ed-bandeira'
+                                      src={urlBandeira(j.codigoBandeira)}
+                                      alt={j.pais}
+                                      loading='lazy'
+                                    />
+                                  )}
+                                </p>
+                              )}
+                              {j?.descricaoCurta && (
+                                <p className='ed-jogador-destaque'>{j.descricaoCurta}</p>
+                              )}
+                              {j?.biografia && (
+                                <p className='ed-jogador-bio'>{j.biografia}</p>
+                              )}
+                            </div>
+                          )}
+                          </button>
+                        </aside>
                       )
                     })()}
                   </div>
@@ -332,61 +431,6 @@ function EquipeDetalhe() {
       </main>
 
       {/* ── Modal do jogador ── */}
-      {jogadorSelecionado && (() => {
-        const j = jogadorSelecionado.jogador
-        const funcao = jogadorSelecionado.funcaoNaEquipe || j?.funcao || ''
-        const bandeira = codigoParaBandeira(j?.codigoBandeira)
-        return (
-          <div
-            className='ed-modal-overlay'
-            onClick={() => setJogadorSelecionado(null)}
-            role="dialog"
-            aria-modal="true"
-            aria-label={`Perfil de ${j?.nomeIngame}`}
-          >
-            <div className='ed-modal' onClick={e => e.stopPropagation()}>
-              <button
-                className='ed-modal-fechar'
-                onClick={() => setJogadorSelecionado(null)}
-                aria-label="Fechar"
-              >
-                ✕
-              </button>
-
-              <div className='ed-modal-topo'>
-                {j?.foto && (
-                  <img
-                    src={urlFor(j.foto)}
-                    alt={j.nomeIngame}
-                    className='ed-modal-foto'
-                  />
-                )}
-                <div className='ed-modal-info'>
-                  <span className='ed-modal-funcao'>{funcao}</span>
-                  <h3 className='ed-modal-nick'>{j?.nomeIngame}</h3>
-                  <div className='ed-modal-meta'>
-                    {j?.nomeReal && <p><strong>Nome:</strong> {j.nomeReal}</p>}
-                    {j?.idade && <p><strong>Idade:</strong> {j.idade} anos</p>}
-                    {j?.pais && (
-                      <p>
-                        <strong>Nasceu na</strong> {j.pais} {bandeira}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {j?.descricaoCurta && (
-                <p className='ed-modal-destaque'>{j.descricaoCurta}</p>
-              )}
-
-              {j?.biografia && (
-                <p className='ed-modal-bio'>{j.biografia}</p>
-              )}
-            </div>
-          </div>
-        )
-      })()}
     </>
   )
 }
