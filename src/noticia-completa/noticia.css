@@ -1,0 +1,212 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap');
+
+.noticia-page {
+    padding-bottom: 60px;
+}
+
+.noticia-carregando {
+    text-align: center;
+    margin-top: 80px;
+    font-size: 18px;
+    color: #c4ccea;
+}
+
+/* ── Hero ── */
+.noticia-hero {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.noticia-hero img {
+    width: 100%;
+    height: 520px;
+    object-fit: cover;
+    display: block;
+}
+
+.noticia-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(20, 28, 56, 0.85), rgba(20, 28, 56, 0) 45%);
+    pointer-events: none;
+}
+
+.noticia-categoria-pill {
+    position: absolute;
+    left: 40px;
+    bottom: 28px;
+    background: #E8A33D;
+    color: #1a1f38;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 20px;
+    z-index: 1;
+}
+
+/* ── Layout de duas colunas ── */
+.noticia-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+    align-items: start;
+}
+
+.noticia-conteudo h1 {
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 0 0 16px;
+}
+
+/* Faixa de metadados estilo HUD */
+.noticia-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #9aa5c9;
+    padding-bottom: 20px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.noticia-meta .ponto {
+    color: #4f5c8c;
+}
+
+.noticia-tempo {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* ── Corpo do texto ── */
+.noticia-corpo {
+    font-size: 17px;
+    line-height: 1.85;
+    color: #e8ecf9;
+}
+
+.noticia-corpo p {
+    margin: 0 0 22px;
+}
+
+.noticia-img-corpo {
+    width: 100%;
+    border-radius: 14px;
+    margin: 8px 0 28px;
+    display: block;
+}
+
+.noticia-sem-corpo {
+    color: #9aa5c9;
+    font-style: italic;
+}
+
+/* ── Sidebar ── */
+.noticia-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    position: sticky;
+    top: 24px;
+}
+
+.sidebar-titulo {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 16px;
+}
+
+.relacionadas-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.relacionada-card {
+    display: flex;
+    gap: 12px;
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 12px;
+    transition: background 0.2s;
+}
+
+.relacionada-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.relacionada-card img {
+    width: 88px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.relacionada-titulo {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.35;
+    margin: 0 0 4px;
+    color: #fff;
+}
+
+.relacionada-credito {
+    font-size: 12px;
+    color: #9aa5c9;
+    font-style: italic;
+}
+
+.fav-times-sidebar {
+    justify-content: flex-start;
+    margin-top: 0;
+    padding: 0;
+}
+
+.fav-times-sidebar .fav-time-card {
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+}
+
+/* ── Responsivo ── */
+@media screen and (max-width: 900px) {
+    .noticia-layout {
+        grid-template-columns: 1fr;
+        padding: 24px;
+    }
+
+    .noticia-sidebar {
+        position: static;
+    }
+
+    .noticia-hero img {
+        height: 320px;
+    }
+
+    .noticia-conteudo h1 {
+        font-size: 28px;
+    }
+
+    .noticia-categoria-pill {
+        left: 20px;
+        bottom: 16px;
+    }
+}
