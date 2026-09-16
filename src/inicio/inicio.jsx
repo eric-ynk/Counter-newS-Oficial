@@ -7,7 +7,7 @@ import NoticiaPrincipalImg from '../assets/Group 4.png'
 import { useAuth } from '../Authcontext'
 import { useConfig } from '../useConfig'
 import { Eye, Lock } from 'lucide-react'
-import Engajamento from '../Engajamento'
+import Engajamento from '../engajamento'
 import '../scroll.css'
 
 function Inicio() {

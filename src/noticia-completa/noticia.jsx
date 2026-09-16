@@ -8,7 +8,7 @@ import { postBySlugQuery, relatedPostsQuery } from "../queries";
 import { useAuth } from "../Authcontext";
 import { useConfig } from "../useConfig";
 import { Clock } from "lucide-react";
-import Engajamento from "../Engajamento";
+import Engajamento from "../engajamento";
 import "../scroll.css";
 import Comentarios from "../comentarios";
 
