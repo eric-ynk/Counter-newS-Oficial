@@ -258,14 +258,14 @@ html.cn-no-anim *::after {
   display: block;
   font-size: 13px;
   font-weight: 500;
-  color: #e6edf3;
+  color: #ffffff;
   margin-bottom: 2px;
 }
 
 .cn-nav__dropdown-email {
   display: block;
   font-size: 12px;
-  color: #636e7b;
+  color: #a4b6cc;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

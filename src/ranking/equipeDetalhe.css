@@ -594,6 +594,40 @@
   }
 
   .ed-jogador-card--ativo .ed-jogador-nick { font-size: 1.5rem; }
+    .ed-jogadores-grid {
+    flex-direction: column;
+    overflow-x: visible;
+    padding-bottom: 0;
+  }
+
+  .ed-jogador-card {
+    flex: none;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+    text-align: left;
+  }
+
+  .ed-jogador-card .ed-jogador-funcao {
+    display: block;
+  }
+
+  .ed-jogador-rodape {
+    order: 0;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .ed-jogador-foto {
+    width: 90px;
+    height: 90px;
+    margin-top: 0;
+    flex-shrink: 0;
+    object-fit: cover;
+  }
 }
 
 /* ── Aplicação da identidade visual da equipe (Sanity) ─────────────────────

@@ -37,6 +37,25 @@
   padding: clamp(1.75rem, 3vw, 3rem);
   background: linear-gradient(165deg, #2c376b 0%, #283c70 45%, #2a4b7c 100%);
   color: #fff;
+  overflow-y: auto;
+}
+
+/* Customização da barra de rolagem do lado do formulário */
+.auth-form-side::-webkit-scrollbar {
+  width: 6px;
+}
+
+.auth-form-side::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.auth-form-side::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.auth-form-side::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
 }
 
 /* Pílula do logo (canto superior esquerdo) */
@@ -49,6 +68,7 @@
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.28);
   background: rgba(255, 255, 255, 0.04);
+  text-decoration: none;
 }
 
 .auth-brand img {

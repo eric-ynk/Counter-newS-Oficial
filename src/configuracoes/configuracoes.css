@@ -328,8 +328,25 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
+  gap: 3rem;
+}
+
+.cfg-perigo-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+ 
+.cfg-perigo-texto strong {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+}
+ 
+.cfg-perigo-texto span {
+  font-size: 0.82rem;
+  color: #aab3d6;
 }
 
 .cfg-feedback {

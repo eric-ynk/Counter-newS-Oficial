@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "./firebase"; // ajuste o caminho conforme seu projeto
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { criarOuAtualizarPerfil } from "./funcoes/users";
 
 const AuthContext = createContext();
 
@@ -9,8 +10,11 @@ export function AuthProvider({ children }) {
   const [loadingAuth, setLoadingAuth] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, async (usuario) => {
+      if (usuario) {
+        await criarOuAtualizarPerfil(usuario);
+      }
+      setUser(usuario);
       setLoadingAuth(false);
     });
     return () => unsubscribe();

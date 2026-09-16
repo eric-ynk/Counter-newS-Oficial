@@ -404,6 +404,12 @@
   }
 }
 
+@media (min-width: 300px) and (max-width:768px) {
+  .rank-elenco {
+    display: none;
+  }
+}
+
 @media (max-width: 760px) {
   .rank-main {
     width: min(100% - 24px, 680px);

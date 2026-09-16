@@ -5,6 +5,7 @@ import { useRef, useState, useEffect } from 'react'
 import { useAuth } from '../Authcontext'
 import client from '../sanity'
 import imageUrlBuilder from '@sanity/image-url'
+import '../scroll.css'
 
 const builder = imageUrlBuilder(client)
 function urlFor(source) {

@@ -5,6 +5,7 @@ import { useRef, useState, useEffect } from 'react'
 import LogoHeader from '../assets/Logo menor.png'
 import { useAuth } from '../Authcontext'
 import client from '../sanity'
+import '../scroll.css'
 import imageUrlBuilder from '@sanity/image-url'
 
 const builder = imageUrlBuilder(client)

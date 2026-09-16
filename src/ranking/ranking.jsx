@@ -8,6 +8,7 @@ import { useConfig } from '../useConfig'
 import { Star, EyeOff } from 'lucide-react'
 import client from '../sanity'
 import imageUrlBuilder from '@sanity/image-url'
+import '../scroll.css'
 
 const builder = imageUrlBuilder(client)
 function urlFor(source) {

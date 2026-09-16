@@ -80,7 +80,6 @@
     text-transform: uppercase;
     color: #9aa5c9;
     padding-bottom: 20px;
-    margin-bottom: 28px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
@@ -99,6 +98,7 @@
     font-size: 17px;
     line-height: 1.85;
     color: #e8ecf9;
+    margin-top: 28px;
 }
 
 .noticia-corpo p {
@@ -115,6 +115,12 @@
 .noticia-sem-corpo {
     color: #9aa5c9;
     font-style: italic;
+}
+
+.noticia-comentarios {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 /* ── Sidebar ── */

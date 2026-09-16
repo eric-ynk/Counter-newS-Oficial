@@ -113,11 +113,9 @@ function FazerLogin() {
 
           <div className='auth-footer'>
             <span>Não tem conta? <Link to='/cadastro'>Cadastre-se</Link></span>
-            <Link to='/'>Termos &amp; Condições</Link>
           </div>
         </div>
 
-        {/* ── Imagem (você coloca a sua) ── */}
         <div className='auth-media'>
           <img
             className='auth-media-img'
@@ -126,8 +124,6 @@ function FazerLogin() {
             onError={(e) => { e.currentTarget.style.display = 'none' }}
           />
           <div className='auth-media-placeholder'>
-            <strong>Espaço para a sua imagem</strong>
-            <span>Coloque o arquivo em <code>public/auth-image.jpg</code></span>
           </div>
           <Link to='/' className='auth-media-close' aria-label='Fechar'>×</Link>
         </div>

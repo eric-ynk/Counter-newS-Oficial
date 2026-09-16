@@ -2,6 +2,20 @@ import './guias.css'
 import { useState, useEffect, useMemo } from 'react'
 import { ChevronDown } from 'lucide-react'
 import client from '../sanity'
+import '../scroll.css'
+import iconeSmoke from '../assets/smoke-grenade.png'
+import iconeFlash from '../assets/smoke-grenade.png'
+import iconeMolotov from '../assets/smoke-grenade.png'
+import iconeExecucao from '../assets/smoke-grenade.png'
+import iconePosicoes from '../assets/smoke-grenade.png'
+
+const ICONES_CATEGORIA = {
+  Smoke: iconeSmoke,
+  Flash: iconeFlash,
+  Molotov: iconeMolotov,
+  Execução: iconeExecucao,
+  Posições: iconePosicoes,
+}
 
 const MAPAS = ['Mirage', 'Dust 2', 'Overpass', 'Anubis', 'Inferno', 'Nuke']
 
@@ -78,10 +92,16 @@ function Guias() {
                   aria-expanded={aberto}
                   onClick={() => setAbertoId(aberto ? null : guia._id)}
                 >
-                  <span className="guia-card-titulo">
-                    {guia.categoria && <span className="guia-tagcat">{guia.categoria}</span>}
-                    {guia.titulo}
-                  </span>
+<span className="guia-card-titulo">
+  {guia.categoria && ICONES_CATEGORIA[guia.categoria] && (
+    <img
+      src={ICONES_CATEGORIA[guia.categoria]}
+      alt={guia.categoria}
+      className="guia-tagcat"
+    />
+  )}
+  {guia.titulo}
+</span>
                   <ChevronDown
                     className={`guia-chevron ${aberto ? 'guia-chevron--aberto' : ''}`}
                     size={28}

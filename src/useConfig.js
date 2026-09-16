@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { ref, onValue } from 'firebase/database'
-import { db } from './firebase'
+import { realtimedb } from './firebase'
 import { useAuth } from './Authcontext'
 
 // Defaults mínimos lidos pelas páginas (espelha o que Configurações salva)
@@ -33,7 +33,7 @@ export function useConfig() {
   // Sincroniza com o banco quando logado
   useEffect(() => {
     if (!user) { setConfig(lerLocal()); return }
-    const r = ref(db, `users/${user.uid}/config`)
+    const r = ref(realtimedb, `users/${user.uid}/config`)
     const unsub = onValue(r, (snap) => {
       if (snap.exists()) setConfig((c) => ({ ...c, ...snap.val() }))
     })

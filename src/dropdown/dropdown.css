@@ -1,0 +1,120 @@
+/* components/dropdown.css
+   Mesmo visual glassmorphism/verde usado em .cfg-select — pra ficar
+   idêntico em qualquer input de seleção do site. */
+
+.dd {
+  position: relative;
+  width: 100%;
+}
+
+.dd-trigger {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-size: 0.92rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.dd-trigger:hover { background: rgba(255, 255, 255, 0.08); }
+
+.dd-trigger:focus-visible,
+.dd-trigger--aberto {
+  outline: none;
+  border-color: #3fcf5f;
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: 0 0 0 4px rgba(63, 207, 95, 0.15);
+}
+
+.dd-trigger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dd-trigger__valor { color: #fff; }
+.dd-trigger__placeholder { color: #8e98c2; }
+
+.dd-trigger__seta {
+  flex-shrink: 0;
+  color: #aab3d6;
+  transition: transform 0.18s;
+}
+
+.dd-trigger--aberto .dd-trigger__seta {
+  transform: rotate(180deg);
+  color: #3fcf5f;
+}
+
+/* ── Painel de opções ─────────────────────────────────────────────────── */
+
+.dd-lista {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  max-height: 260px;
+  overflow-y: auto;
+  border-radius: 12px;
+  background: #242657;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(14px);
+  animation: ddAbrir 0.14s ease;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.dd-lista::-webkit-scrollbar { width: 5px; }
+.dd-lista::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 3px; }
+
+@keyframes ddAbrir {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.dd-opcao {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #c4ccea;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.dd-opcao--foco {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.dd-opcao--selecionada {
+  color: #fff;
+  font-weight: 600;
+}
+
+.dd-opcao--selecionada svg { color: #3fcf5f; flex-shrink: 0; }
+
+.dd-opcao--desabilitada {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dd-lista, .dd-trigger__seta { animation: none; transition: none; }
+}

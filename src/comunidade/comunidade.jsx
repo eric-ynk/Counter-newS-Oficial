@@ -12,7 +12,7 @@ import {
   onDisconnect,
   get,
 } from "firebase/database";
-import { db } from "../firebase"; // ajuste o caminho conforme seu projeto
+import { realtimedb } from "../firebase"; // ajuste o caminho conforme seu projeto
 import { useAuth } from "../Authcontext"; // ajuste o caminho conforme seu projeto
 import "./comunidade.css";
 
@@ -176,8 +176,8 @@ export default function ComunidadeChat() {
   useEffect(() => {
     if (!currentUser) return;
 
-    const userPresenceRef = ref(db, `presence/${currentUser.uid}`);
-    const connectedRef = ref(db, ".info/connected");
+    const userPresenceRef = ref(realtimedb, `presence/${currentUser.uid}`);
+    const connectedRef = ref(realtimedb, ".info/connected");
 
     const unsub = onValue(connectedRef, (snap) => {
       if (!snap.val()) return;
@@ -202,7 +202,7 @@ export default function ComunidadeChat() {
 
   // ── Ouvir usuários online ────────────────────────────────────────────────
   useEffect(() => {
-    const presenceRef = ref(db, "presence");
+    const presenceRef = ref(realtimedb, "presence");
     const unsub = onValue(presenceRef, (snap) => {
       const data = snap.val() || {};
       setOnlineUsers(
@@ -215,7 +215,7 @@ export default function ComunidadeChat() {
   // ── Ouvir mensagens ──────────────────────────────────────────────────────
   useEffect(() => {
     const messagesRef = query(
-      ref(db, "chat/geral/messages"),
+      ref(realtimedb, "chat/geral/messages"),
       limitToLast(100)
     );
 
@@ -233,7 +233,7 @@ export default function ComunidadeChat() {
 
   // ── Ouvir quem está digitando ────────────────────────────────────────────
   useEffect(() => {
-    const typingRef = ref(db, "chat/geral/typing");
+    const typingRef = ref(realtimedb, "chat/geral/typing");
     const unsub = onValue(typingRef, (snap) => {
       const data = snap.val() || {};
       const now = Date.now();
@@ -264,11 +264,11 @@ export default function ComunidadeChat() {
     // Busca role do usuário (opcional — armazena em /users/{uid}/role)
     let role = "membro";
     try {
-      const roleSnap = await get(ref(db, `users/${currentUser.uid}/role`));
+      const roleSnap = await get(ref(realtimedb, `users/${currentUser.uid}/role`));
       if (roleSnap.exists()) role = roleSnap.val();
     } catch (_) {}
 
-    await push(ref(db, "chat/geral/messages"), {
+    await push(ref(realtimedb, "chat/geral/messages"), {
       text,
       authorId: currentUser.uid,
       authorName: displayName,
@@ -277,7 +277,7 @@ export default function ComunidadeChat() {
     });
 
     // Limpa typing
-    await set(ref(db, `chat/geral/typing/${currentUser.uid}`), null);
+    await set(ref(realtimedb, `chat/geral/typing/${currentUser.uid}`), null);
     isTypingRef.current = false;
     clearTimeout(typingTimeoutRef.current);
 
@@ -291,7 +291,7 @@ export default function ComunidadeChat() {
   const handleTyping = useCallback(
     (value) => {
       if (!currentUser) return;
-      const typingRef = ref(db, `chat/geral/typing/${currentUser.uid}`);
+      const typingRef = ref(realtimedb, `chat/geral/typing/${currentUser.uid}`);
 
       if (value.trim() && !isTypingRef.current) {
         isTypingRef.current = true;

@@ -7,6 +7,8 @@ import NoticiaPrincipalImg from '../assets/Group 4.png'
 import { useAuth } from '../Authcontext'
 import { useConfig } from '../useConfig'
 import { Eye, Lock } from 'lucide-react'
+import Engajamento from '../Engajamento'
+import '../scroll.css'
 
 function Inicio() {
   const [postPrincipal, setPostPrincipal] = useState(null);
@@ -62,6 +64,7 @@ function Inicio() {
               timeZone: 'America/Sao_Paulo'
             })}
           </span>
+          <Engajamento slug={postPrincipal.slug} modo="resumo" />
         </Link>
         );
       })()}
@@ -98,6 +101,7 @@ function Inicio() {
                   })}
                 </span>
               )}
+              <Engajamento slug={post.slug} modo="resumo" />
             </>
           );
 
